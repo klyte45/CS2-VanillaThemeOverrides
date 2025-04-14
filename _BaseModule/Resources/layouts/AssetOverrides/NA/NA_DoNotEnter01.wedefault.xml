@@ -1,0 +1,51 @@
+<WELayout>
+  <children>
+    <self itemName="NewDecal">
+      <transform>
+        <offsetPosition x="0.003" y="1.84450138" z="0.0440000072" />
+        <offsetRotation x="-0" y="0" z="0" />
+        <scale x="0.6" y="0.6" z="0.025" />
+      </transform>
+      <imageMesh atlas="Brazil">
+        <image>SignWrongWay</image>
+      </imageMesh>
+      <decalStyle decalFlags="32" affectSmoothness="false" affectAO="true" affectEmission="true" drawOrder="0">
+        <color>F0f0f0FF</color>
+        <metallic>0</metallic>
+        <smoothness>0</smoothness>
+      </decalStyle>
+    </self>
+  </children>
+  <children>
+    <self itemName="NewDecal">
+      <transform>
+        <offsetPosition x="0" y="1.31949675" z="0.0440000072" />
+        <offsetRotation x="-0" y="0" z="0" />
+        <scale x="0.6" y="0.35" z="0.025" />
+      </transform>
+      <whiteMesh />
+      <decalStyle decalFlags="32" affectSmoothness="false" affectAO="true" affectEmission="true" drawOrder="0">
+        <color>F0f0f0FF</color>
+        <metallic>0</metallic>
+        <smoothness>0</smoothness>
+      </decalStyle>
+    </self>
+    <children>
+      <self itemName="NewDecal">
+        <transform>
+          <offsetPosition x="0" y="0" z="0" />
+          <offsetRotation x="-0" y="0" z="0" />
+          <scale x="0.3" y="0.3" z="0.025" />
+        </transform>
+        <imageMesh atlas="Brazil">
+          <image>NA_WrongWaySignWarn</image>
+        </imageMesh>
+        <decalStyle decalFlags="32" affectSmoothness="false" affectAO="true" affectEmission="true" drawOrder="1">
+          <color>F0f0f0FF</color>
+          <metallic>0</metallic>
+          <smoothness>0</smoothness>
+        </decalStyle>
+      </self>
+    </children>
+  </children>
+</WELayout>

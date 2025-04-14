@@ -1,16 +1,14 @@
-# Model project for Write Everywhre modules mods
+# Vanilla Theme Override - Brazil/Customizable
 
-This is a project to be used as starter point to any new module pack of Write Everywhere mod for Cities Skylines 2.
+This Write Everywhere Module targets to override all transit props from the base vanilla themes (North America and Europe) into a customizable setup, defaulting to Brazilian style.
 
-## Setting up
+To customize and create your own style:
+- At WE window, export the Brazil image atlas;
+- Go to exported folder and edit your images;
+- Ensure the exported folder is now inside `imageAtlas` folder at WE mod data folder;
+- Reload the sprites ingame/restart the game;
+- at Templates Setup tab, search by this mod in the list and select your created atlas to replace the original.
 
-- Rename this project and solution to setup the DLL name this module will have.
-	- TIP: To avoid conflicts, start the project name with a acronym representing your name, example: `XYZ_MyWEModule` being XYZ the acronym that represents you.
-- Add resources at each `Resources/` subfolder as instructed locally there
-- Change csproj file details (DisplayName, ShortDescription, ForumLink, other social media links tags)
-- Setup thumbnail into `Properties/Thumbnail.png`
-- Add screenshots at `Screenshots/` folder (jpg files, optional)
-- Publish the mod using "Publish..." option in context menu of the project
-- After having a modId in Paradox Mods, setup it into the ModId parameter at csproj file
+The original PSD files for some images are available at GitHub.
 
-After that, just don't forget to change the Version parameter in the csproj file if you need to upload new versions of the module!
+Other styles may be added to this module in the future.

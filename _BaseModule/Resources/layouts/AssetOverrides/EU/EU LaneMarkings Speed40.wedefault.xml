@@ -1,0 +1,34 @@
+<WELayout>
+  <children>
+    <self itemName="BG">
+      <transform>
+        <offsetPosition x="0" y="0" z="0" />
+        <offsetRotation x="270" y="180" z="0" />
+        <scale x="3" y="6" z="1" />
+      </transform>
+      <whiteMesh />
+      <decalStyle decalFlags="7" affectSmoothness="true" affectAO="false" affectEmission="false" drawOrder="1">
+        <color>4b4b4bff</color>
+        <metallic>0</metallic>
+        <smoothness>0</smoothness>
+      </decalStyle>
+    </self>
+    <children>
+      <self itemName="NewDecal">
+        <transform>
+          <offsetPosition x="0" y="0" z="0" />
+          <offsetRotation x="-0" y="0" z="0" />
+          <scale x="6" y="6" z="1" />
+        </transform>
+        <imageMesh atlas="Brazil">
+          <image>Floor40</image>
+        </imageMesh>
+        <decalStyle decalFlags="7" affectSmoothness="false" affectAO="false" affectEmission="false" drawOrder="2">
+          <color>FFFFFFFF</color>
+          <metallic>0</metallic>
+          <smoothness>0</smoothness>
+        </decalStyle>
+      </self>
+    </children>
+  </children>
+</WELayout>

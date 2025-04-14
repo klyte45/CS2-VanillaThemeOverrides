@@ -1,0 +1,51 @@
+<WELayout>
+  <children>
+    <self itemName="NewDecal">
+      <transform>
+        <offsetPosition x="0" y="1.73400128" z="0.044" />
+        <offsetRotation x="-0" y="0" z="0" />
+        <scale x="0.6" y="0.78" z="0.025" />
+      </transform>
+      <whiteMesh />
+      <decalStyle decalFlags="32" affectSmoothness="true" affectAO="true" affectEmission="true" drawOrder="2">
+        <color>F0f0f0FF</color>
+        <metallic>0</metallic>
+        <smoothness>0.4</smoothness>
+      </decalStyle>
+    </self>
+    <children>
+      <self itemName="New item">
+        <transform>
+          <offsetPosition x="0" y="0.1350001" z="0" />
+          <offsetRotation x="-0" y="0" z="0" />
+          <scale x="0.4" y="0.4" z="0.025" />
+        </transform>
+        <imageMesh atlas="Brazil">
+          <image>SignParking</image>
+        </imageMesh>
+        <decalStyle decalFlags="32" affectSmoothness="true" affectAO="true" affectEmission="true" drawOrder="3">
+          <color>F0f0f0FF</color>
+          <metallic>0</metallic>
+          <smoothness>0.4</smoothness>
+        </decalStyle>
+      </self>
+    </children>
+    <children>
+      <self itemName="Warning">
+        <transform>
+          <offsetPosition x="0" y="-0.214000255" z="0" />
+          <offsetRotation x="-0" y="0" z="0" />
+          <scale x="0.25" y="0.25" z="0.025" />
+        </transform>
+        <imageMesh atlas="Brazil">
+          <image>SignWarningCityServicesOnly</image>
+        </imageMesh>
+        <decalStyle decalFlags="32" affectSmoothness="true" affectAO="true" affectEmission="true" drawOrder="3">
+          <color>F0f0f0FF</color>
+          <metallic>0</metallic>
+          <smoothness>0.4</smoothness>
+        </decalStyle>
+      </self>
+    </children>
+  </children>
+</WELayout>

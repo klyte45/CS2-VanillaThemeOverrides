@@ -351,3 +351,4 @@ MigrationBackup/
 
 *.pid
 *.drawio.bkp
+/_BaseModule/Properties/PublishConfiguration.xml

@@ -1,0 +1,19 @@
+<WELayout>
+  <children>
+    <self itemName="NewDecal">
+      <transform>
+        <offsetPosition x="0" y="1.89199841" z="0.0490000062" />
+        <offsetRotation x="-0" y="0" z="0" />
+        <scale x="0.7" y="0.7" z="0.025" />
+      </transform>
+      <imageMesh atlas="Brazil">
+        <image>SignPreference</image>
+      </imageMesh>
+      <decalStyle decalFlags="32" affectSmoothness="false" affectAO="true" affectEmission="true" drawOrder="0">
+        <color>FFFFFFFF</color>
+        <metallic>0</metallic>
+        <smoothness>0</smoothness>
+      </decalStyle>
+    </self>
+  </children>
+</WELayout>
