@@ -15,7 +15,7 @@ namespace _BaseModule
 {
     public class Mod : IMod
     {
-        public static ILog log = LogManager.GetLogger($"{typeof(Mod).Assembly.GetName().Name}.{nameof(Mod)}").SetShowsErrorsInUI(false);
+        public static ILog log = LogManager.GetLogger($"{typeof(Mod).Assembly.GetName().Name}.{nameof(Mod)}");
         private static readonly BindingFlags allFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.GetField | BindingFlags.GetProperty;
 
         public void OnLoad(UpdateSystem updateSystem)
@@ -24,15 +24,17 @@ namespace _BaseModule
 
             if (GameManager.instance.modManager.TryGetExecutableAsset(this, out var asset))
                 log.Info($"Current mod asset at {asset.path}");
-           
+
             GameManager.instance.RegisterUpdater(DoWhenLoaded);
         }
 
         private void DoWhenLoaded()
         {
             log.Info($"Loading patches");
-            DoPatches();
-            RegisterModFiles();
+            if (DoPatches())
+            {
+                RegisterModFiles();
+            }
         }
 
         private void RegisterModFiles()
@@ -57,14 +59,30 @@ namespace _BaseModule
 
             var fontsDirectory = Path.Combine(modDir, "fonts");
             WEFontManagementBridge.RegisterModFonts(typeof(Mod).Assembly, fontsDirectory);
+
+            var objDirctory = Path.Combine(modDir, "objMeshes");
+
+            if (Directory.Exists(objDirctory))
+            {
+                var meshes = Directory.GetFiles(objDirctory, "*.obj", SearchOption.AllDirectories);
+                foreach (var meshFile in meshes)
+                {
+                    var meshName = Path.GetFileNameWithoutExtension(meshFile);
+                    if (!WEMeshManagementBridge.RegisterMesh(typeof(Mod).Assembly, meshName, meshFile))
+                    {
+                        log.Warn($"Failed to register mesh: {meshName} from {meshFile}");
+                    }
+                }
+            }
         }
 
-        private void DoPatches()
+        private bool DoPatches()
         {
             var weAsset = AssetDatabase.global.GetAsset(SearchFilter<ExecutableAsset>.ByCondition(asset => asset.isEnabled && asset.isLoaded && asset.name.Equals("BelzontWE")));
             if (weAsset?.assembly is null)
             {
-                throw new Exception($"The module {GetType().Name} requires Write Everywhere mod to work!");
+                log.Error($"The module {GetType().Assembly.GetName().Name} requires Write Everywhere mod to work!");
+                return false;
 
             }
 
@@ -73,6 +91,7 @@ namespace _BaseModule
                     (typeof(WEFontManagementBridge), "FontManagementBridge"),
                     (typeof(WEImageManagementBridge), "ImageManagementBridge"),
                     (typeof(WETemplatesManagementBridge), "TemplatesManagementBridge"),
+                    (typeof(WEMeshManagementBridge), "MeshManagementBridge"),
                 })
             {
                 var targetType = exportedTypes.First(x => x.Name == sourceClassName);
@@ -83,7 +102,7 @@ namespace _BaseModule
                     else log.Warn($"Method not found while patching WE: {targetType.FullName} {srcMethod.Name}({string.Join(", ", method.GetParameters().Select(x => $"{x.ParameterType}"))})");
                 }
             }
-
+            return true;
         }
 
         public void OnDispose()
