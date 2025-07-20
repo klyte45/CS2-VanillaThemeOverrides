@@ -10,8 +10,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using VanillaThemeOverride.Systems;
 
-namespace _BaseModule
+namespace VanillaThemeOverride
 {
     public class Mod : IMod
     {
@@ -26,6 +27,9 @@ namespace _BaseModule
                 log.Info($"Current mod asset at {asset.path}");
 
             GameManager.instance.RegisterUpdater(DoWhenLoaded);
+
+            updateSystem.UpdateAt<EdgeExtraDataUpdater2B>(SystemUpdatePhase.Modification2B);
+            updateSystem.UpdateAt<EdgeExtraDataUpdater>(SystemUpdatePhase.Rendering);
         }
 
         private void DoWhenLoaded()
@@ -34,6 +38,7 @@ namespace _BaseModule
             if (DoPatches())
             {
                 RegisterModFiles();
+
             }
         }
 
@@ -92,6 +97,7 @@ namespace _BaseModule
                     (typeof(WEImageManagementBridge), "ImageManagementBridge"),
                     (typeof(WETemplatesManagementBridge), "TemplatesManagementBridge"),
                     (typeof(WEMeshManagementBridge), "MeshManagementBridge"),
+                    (typeof(WERoadFnBridge), "RoadFnBridge"),
                 })
             {
                 var targetType = exportedTypes.First(x => x.Name == sourceClassName);

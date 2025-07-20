@@ -3,9 +3,7 @@
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<TargetFramework>net472</TargetFramework>
-    <LangVersion>12</LangVersion>
 		<Configurations>Debug;Release</Configurations>
-		
 		<!--The file where mod information which is required for publishing mod on PDX mods are stored-->
 		<PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
 	</PropertyGroup>
@@ -16,6 +14,7 @@
   <Import Project="$(SolutionDir)\_Build\belzont_public.targets" />
 
   <PropertyGroup>
+    <LangVersion>12</LangVersion>
     <IsBelzontCommonsMod>false</IsBelzontCommonsMod>
     <ModId></ModId>
     <Version>1.1.0.0</Version>
@@ -74,19 +73,29 @@
     <Reference Include="Colossal.AssetPipeline">
       <Private>False</Private>
     </Reference>
+    <Reference Include="Colossal.Mathematics">
+      <Private>False</Private>
+    </Reference>
 	</ItemGroup>
 
-	<ItemGroup>
-		<Reference Update="System">
-			<Private>false</Private>
-		</Reference>
-		<Reference Update="System.Core">
-			<Private>false</Private>
-		</Reference>
-		<Reference Update="System.Data">
-			<Private>false</Private>
-		</Reference>
-	</ItemGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <HintPath>$(CSII_MANAGEDPATH)\System.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Update="System.Core">
+      <HintPath>$(CSII_MANAGEDPATH)\System.Core.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Update="System.Data">
+      <HintPath>$(CSII_MANAGEDPATH)\System.Data.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="mscorlib">
+      <HintPath>$(CSII_MANAGEDPATH)\mscorlib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
 
 	<ItemGroup>
 		<None Include="$(ModPropsFile)" Link="Properties\Mod.props" />
@@ -115,8 +124,8 @@
       <AdditionalFilesToDeployLayouts Include="Resources\layouts\**\*.wedefault.xml" />
       <AdditionalFilesToDeployMeshes Include="Resources\objMeshes\**\*.obj" />
     </ItemGroup>
-    <Copy SourceFiles="@(AdditionalFilesToDeployAtlas)"		DestinationFiles="@(AdditionalFilesToDeployAtlas->'$(DeployDir)\atlases\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(AdditionalFilesToDeployFonts)"		DestinationFiles="@(AdditionalFilesToDeployFonts->'$(DeployDir)\fonts\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(AdditionalFilesToDeployAtlas)" DestinationFiles="@(AdditionalFilesToDeployAtlas->'$(DeployDir)\atlases\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(AdditionalFilesToDeployFonts)" DestinationFiles="@(AdditionalFilesToDeployFonts->'$(DeployDir)\fonts\%(RecursiveDir)%(Filename)%(Extension)')" />
     <Copy SourceFiles="@(AdditionalFilesToDeployLayouts)" DestinationFiles="@(AdditionalFilesToDeployLayouts->'$(DeployDir)\layouts\%(RecursiveDir)%(Filename)%(Extension)')" />
     <Copy SourceFiles="@(AdditionalFilesToDeployMeshes)" DestinationFiles="@(AdditionalFilesToDeployMeshes->'$(DeployDir)\objMeshes\%(Filename)%(Extension)')" />
   </Target>
