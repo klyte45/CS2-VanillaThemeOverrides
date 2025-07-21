@@ -98,6 +98,7 @@ namespace VanillaThemeOverride
                     (typeof(WETemplatesManagementBridge), "TemplatesManagementBridge"),
                     (typeof(WEMeshManagementBridge), "MeshManagementBridge"),
                     (typeof(WERoadFnBridge), "RoadFnBridge"),
+                    (typeof(WELocalizationBridge), "LocalizationBridge"),
                 })
             {
                 var targetType = exportedTypes.First(x => x.Name == sourceClassName);
