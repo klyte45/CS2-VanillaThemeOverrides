@@ -34,6 +34,12 @@ namespace VanillaThemeOverride.Functions
             public Colossal.Hash128 thisVersion;
             public Colossal.Hash128 otherVersion;
             public float3 offsetPosition;
+            internal bool _isOddOnMainProp;
+            internal float _targetAngle;
+            internal float _otherRoadAngle;
+            internal float _thisRoadAngle;
+            internal float3 _originalPos;
+            internal Bezier4x3 _nodeCenterCurve;
 
             public readonly bool IsUpToDate(Entity edge, Colossal.Hash128 version)
                 => (edge == thisEdge && version == thisVersion) || (edge == otherEdge && version == otherVersion);
@@ -123,19 +129,22 @@ namespace VanillaThemeOverride.Functions
             em.TryGetComponent<Node>(owner.m_Owner, out var nodeData);
             em.TryGetBuffer<Game.Net.SubLane>(owner.m_Owner, true, out var lanes);
 
-            var propPosition = float3.zero;
+            var propPosition = transform.m_Position;
             var nearestDistanceAngle = float.MaxValue;
 
             em.TryGetComponent<Curve>(dataThis.RefEdge, out var curveThis);
             var midCurve = MathUtils.Position(curveThis.m_Bezier, .5f);
-            var nodeCenterCurve = new Bezier4x3(dataThis.CenterPoint, dataThis.CenterPoint, midCurve, midCurve);
+            var nodeCenterCurve = new Bezier4x3(nodeData.m_Position, dataThis.CenterPoint, midCurve, midCurve);
             var isOnOddSideMainProp = IsOddSide(transform.m_Position, nodeCenterCurve, .5f);
             float targetAngle = (thisRoadAngle + otherRoadAngle + ((thisRoadAngle > otherRoadAngle) == isOnOddSideMainProp ? 360 : 0)) / 2 % 360;
 
 
             for (int i = 0; i < lanes.Length; i++)
             {
-                if ((lanes[i].m_PathMethods & Game.Pathfind.PathMethod.Pedestrian) != 0 && em.TryGetComponent<Curve>(lanes[i].m_SubLane, out var laneCurve))
+                if ((lanes[i].m_PathMethods & Game.Pathfind.PathMethod.Pedestrian) != 0
+                     && em.TryGetComponent<PedestrianLane>(lanes[i].m_SubLane, out var laneData)
+                     && (laneData.m_Flags & PedestrianLaneFlags.Crosswalk) == 0
+                    && em.TryGetComponent<Curve>(lanes[i].m_SubLane, out var laneCurve))
                 {
                     MathUtils.Distance(laneCurve.m_Bezier.xz, dataThis.CenterPoint.xz, out float pos);
                     var angle = dataThis.CenterPoint.xz.GetAngleToPoint(MathUtils.Position(laneCurve.m_Bezier, pos).xz);
@@ -165,7 +174,13 @@ namespace VanillaThemeOverride.Functions
                 otherRoadAngle = otherRoadAngle - ((Quaternion)transform.m_Rotation).eulerAngles.y,
                 thisNodeIsMinNumber = thisNodeIsAtEnd,
                 otherNodeIsMinNumber = otherNodeIsAtEnd,
-                offsetPosition = new float3(((float3)(Matrix4x4.Rotate(transform.m_Rotation).inverse.MultiplyPoint(propPosition - transform.m_Position))).xz, 0).xzy
+                offsetPosition = new float3(((float3)(Matrix4x4.Rotate(transform.m_Rotation).inverse.MultiplyPoint(propPosition - transform.m_Position))).xz, 0).xzy,
+                _targetAngle = targetAngle,
+                _originalPos = transform.m_Position,
+                _thisRoadAngle = thisRoadAngle,
+                _otherRoadAngle = otherRoadAngle,
+                _isOddOnMainProp = isOnOddSideMainProp,
+                _nodeCenterCurve = nodeCenterCurve
 
             };
             EdgeExtraDataUpdater.EnqueueToRun((ecb) =>

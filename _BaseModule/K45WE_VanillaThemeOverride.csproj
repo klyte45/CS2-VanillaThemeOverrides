@@ -111,7 +111,6 @@
 
   <ItemGroup>
     <Folder Include="Screenshots\" />
-    <Folder Include="Resources\layouts\" />
     <Folder Include="Resources\fonts\" />
   </ItemGroup>
 
