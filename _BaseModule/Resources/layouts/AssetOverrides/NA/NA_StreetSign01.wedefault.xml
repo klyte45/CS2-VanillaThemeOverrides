@@ -146,7 +146,7 @@
                 <arraySpacing x="0" y="0" z="0" />
               </transform>
               <layoutMesh>
-                <layout>Street Name Plate</layout>
+                <layout>Secondary Street Name Plate</layout>
               </layoutMesh>
             </self>
           </children>

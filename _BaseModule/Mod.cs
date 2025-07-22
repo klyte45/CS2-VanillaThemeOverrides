@@ -1,4 +1,5 @@
 ﻿using BridgeWE;
+using Colossal;
 using Colossal.IO.AssetDatabase;
 using Colossal.Logging;
 using Game;
@@ -19,14 +20,18 @@ namespace VanillaThemeOverride
         public static ILog log = LogManager.GetLogger($"{typeof(Mod).Assembly.GetName().Name}.{nameof(Mod)}");
         private static readonly BindingFlags allFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.GetField | BindingFlags.GetProperty;
 
+        private ModData modData;
         public void OnLoad(UpdateSystem updateSystem)
         {
             log.Info(nameof(OnLoad));
+            modData = new ModData(this);
+            modData.RegisterInOptionsUI();
 
             if (GameManager.instance.modManager.TryGetExecutableAsset(this, out var asset))
                 log.Info($"Current mod asset at {asset.path}");
 
             GameManager.instance.RegisterUpdater(DoWhenLoaded);
+            GameManager.instance.RegisterUpdater(LoadLocales);
 
             updateSystem.UpdateAt<EdgeExtraDataUpdater2B>(SystemUpdatePhase.Modification2B);
             updateSystem.UpdateAt<EdgeExtraDataUpdater>(SystemUpdatePhase.Rendering);
@@ -115,6 +120,34 @@ namespace VanillaThemeOverride
         public void OnDispose()
         {
             log.Info(nameof(OnDispose));
+        }
+
+        internal void LoadLocales()
+        {
+            var baseModData = new ModGenI18n(modData);
+            foreach (var lang in GameManager.instance.localizationManager.GetSupportedLocales())
+            {
+                GameManager.instance.localizationManager.AddSource(lang, baseModData);
+            }
+        }
+
+        private class ModGenI18n(ModData data) : IDictionarySource
+        {
+            public IEnumerable<KeyValuePair<string, string>> ReadEntries(IList<IDictionaryEntryError> errors, Dictionary<string, int> indexCounts)
+            {
+                return new Dictionary<string, string>
+                {
+                    [data.GetOptionLabelLocaleID(nameof(ModData.GoToAbbreviationsFolder))] = "Go to abbreviations folder",
+                    [data.GetOptionDescLocaleID(nameof(ModData.GoToAbbreviationsFolder))] = "Change the abbreviation.txt file contents and it will be automatically loaded inside the game.\nGeneral instructions are available on first file created automatically at first mod run. Erase it and reset the game to get it again if necessary.",
+                    [data.GetOptionLabelLocaleID(nameof(ModData.CheckAbbreviationsFilesModels))] = "Check model abbreviation files at github",
+                    [data.GetOptionDescLocaleID(nameof(ModData.CheckAbbreviationsFilesModels))] = "See some pre mounted abbreviation files. Just copy their contents into your abbreviations.txt file and start using, it's automatically reloaded.",
+                    [data.GetSettingsLocaleID()] = "Vanilla Theme Override",
+                };
+            }
+
+            public void Unload()
+            {
+            }
         }
     }
 }

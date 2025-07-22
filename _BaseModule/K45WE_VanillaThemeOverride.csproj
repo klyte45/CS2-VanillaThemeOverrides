@@ -21,7 +21,7 @@
     <ThumbnailPath>Properties/Thumbnail.png</ThumbnailPath>
     <DisplayName>Vanilla Theme Override - Brazil/Customizable [WE Module]</DisplayName>
     <ShortDescription>Allows overriding the vanilla themes transit signs to other styles. Defaults to Brazil.</ShortDescription>
-    <ForumLink></ForumLink>
+    <ForumLink>https://forum.paradoxplaza.com/forum/threads/vanilla-theme-overrides-we-module.1851389/</ForumLink>
     <GitHubLink>https://github.com/klyte45/CS2-VanillaThemeOverrides</GitHubLink>
     <YoutubeLink></YoutubeLink>
     <KofiLink></KofiLink>
@@ -48,9 +48,12 @@
 		<Reference Include="Colossal.Core">
 			<Private>false</Private>
 		</Reference>
-		<Reference Include="Colossal.Logging">
-			<Private>false</Private>
-		</Reference>
+    <Reference Include="Colossal.Logging">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Colossal.Localization">
+      <Private>false</Private>
+    </Reference>
 		<Reference Include="Colossal.IO.AssetDatabase">
 			<Private>false</Private>
 		</Reference>
