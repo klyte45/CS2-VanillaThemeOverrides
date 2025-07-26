@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using VanillaThemeOverride.Functions;
 using VanillaThemeOverride.Systems;
 
 namespace VanillaThemeOverride
@@ -43,7 +44,7 @@ namespace VanillaThemeOverride
             if (DoPatches())
             {
                 RegisterModFiles();
-
+                AbbreviationsFn.Initialize();
             }
         }
 

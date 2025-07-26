@@ -1,4 +1,10 @@
-#  v2.0.0r0 (22-JUL-25)
+# v2.0.0r1 (26-JUL-25)
+
+- Fixed issue relative to abbreviations files
+- Fixing transparency of floor decals
+- Added importable street sign layout, allowing to import the street sign manually in any game node prop
+
+## FROM  v2.0.0r0 (22-JUL-25)
 - Now hiding original meshes from the road decals
 - Added support to customizable street signs:
   - They place themselves at center of the corner and point to the right direction of the road they sign to.

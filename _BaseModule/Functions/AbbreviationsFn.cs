@@ -12,14 +12,16 @@ namespace VanillaThemeOverride.Functions
         private static readonly Dictionary<string, string> AbbreviatedNamesCache = [];
         private static readonly List<(Regex Matching, string Replacement)> LoadedAbbreviations = [];
         public static readonly string ABBREVIATIONS_FILE_LOCATION = Path.Combine(Application.persistentDataPath, "ModsData", "Klyte45Mods", "VanillaThemeOverriding", "abbreviations.txt");
-        private static readonly FileSystemWatcher AbbreviationsFileWatcher;
+        private static FileSystemWatcher AbbreviationsFileWatcher { get; set; }
 
-        static AbbreviationsFn()
+        internal static void Initialize()
         {
-            if (!File.Exists(ABBREVIATIONS_FILE_LOCATION))
+            if (AbbreviationsFileWatcher == null)
             {
-                EnsureFolderCreation(Path.GetDirectoryName(ABBREVIATIONS_FILE_LOCATION));
-                File.WriteAllText(ABBREVIATIONS_FILE_LOCATION, """
+                if (!File.Exists(ABBREVIATIONS_FILE_LOCATION))
+                {
+                    EnsureFolderCreation(Path.GetDirectoryName(ABBREVIATIONS_FILE_LOCATION));
+                    File.WriteAllText(ABBREVIATIONS_FILE_LOCATION, """
                     # Example:
                     # Street = St
                     # Remove the initial '#' to make the line effective!
@@ -29,14 +31,15 @@ namespace VanillaThemeOverride.Functions
                     # Abbreviations files from Write Everywhere/Write the Signs for Cities Skylines 1 may work too:
                     # https://github.com/klyte45/WriteTheSignsFiles/tree/master/abbreviations
                     """);
+                }
+                AbbreviationsFileWatcher = new(Path.GetDirectoryName(ABBREVIATIONS_FILE_LOCATION), Path.GetFileName(ABBREVIATIONS_FILE_LOCATION))
+                {
+                    NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.Size,
+                };
+                LoadAbbreviations();
+                AbbreviationsFileWatcher.Changed += (sender, args) => LoadAbbreviations();
+                AbbreviationsFileWatcher.EnableRaisingEvents = true;
             }
-            AbbreviationsFileWatcher = new(Path.GetDirectoryName(ABBREVIATIONS_FILE_LOCATION), Path.GetFileName(ABBREVIATIONS_FILE_LOCATION))
-            {
-                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.Size,
-            };
-            LoadAbbreviations();
-            AbbreviationsFileWatcher.Changed += (sender, args) => LoadAbbreviations();
-            AbbreviationsFileWatcher.EnableRaisingEvents = true;
         }
 
         private static FileInfo EnsureFolderCreation(string folderName)
