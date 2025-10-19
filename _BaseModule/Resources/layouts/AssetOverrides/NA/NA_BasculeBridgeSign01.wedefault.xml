@@ -40,7 +40,7 @@
         </transform>
         <imageMesh atlas="Brazil">
           <mesh></mesh>
-          <image>Sign80</image>
+          <image>BasculeBridge</image>
         </imageMesh>
         <defaultStyle>
           <color>000000FF</color>
@@ -68,7 +68,7 @@
           </transform>
           <imageMesh atlas="Brazil">
             <mesh></mesh>
-            <image>Sign80</image>
+            <image>BasculeBridge</image>
           </imageMesh>
           <defaultStyle>
             <color>FFFFFFFF</color>
