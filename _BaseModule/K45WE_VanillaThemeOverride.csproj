@@ -16,7 +16,7 @@
     <LangVersion>12</LangVersion>
     <IsBelzontCommonsMod>false</IsBelzontCommonsMod>
     <ModId>106877</ModId>
-    <Version>2.0.1.0</Version>
+    <Version>2.0.2.0</Version>
     <GameVersion>1.*</GameVersion> 
     <ThumbnailPath>Properties/Thumbnail.png</ThumbnailPath>
     <DisplayName>Vanilla Theme Override - Brazil/Customizable [WE Module]</DisplayName>
@@ -78,6 +78,15 @@
     <Reference Include="Colossal.Mathematics">
       <Private>False</Private>
     </Reference>
+    <Reference Include="Colossal.OdinSerializer">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Colossal.Mono.Cecil">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Colossal.UI.Binding">
+      <Private>False</Private>
+    </Reference>
 	</ItemGroup>
 
   <ItemGroup>
@@ -110,6 +119,9 @@
 
   <ItemGroup>
     <EmbeddedResource Include="changelog.md" />
+    <None Update="i18n\i18n.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
