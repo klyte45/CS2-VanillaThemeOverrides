@@ -38,16 +38,17 @@ namespace VanillaThemeOverride
             updateSystem.UpdateAt<EdgeExtraDataUpdater2B>(SystemUpdatePhase.Modification2B);
             updateSystem.UpdateAt<EdgeExtraDataUpdater>(SystemUpdatePhase.Rendering);
             updateSystem.World.CreateSystemManaged<AbbreviationManagementSystem>();
-
+            (AssetDatabase<ParadoxMods>.instance.dataSource as ParadoxModsDataSource).onAfterActivePlaysetOrModStatusChanged += DoWhenLoaded;
         }
-
+        private bool isLoaded = false;
         private void DoWhenLoaded()
         {
+            if (isLoaded) return;
             log.Info($"Loading patches");
-            if (DoPatches())
-            {
-                RegisterModFiles();
-            }
+            if (!DoPatches()) return;
+            RegisterModFiles();
+            isLoaded = true;
+            (AssetDatabase<ParadoxMods>.instance.dataSource as ParadoxModsDataSource).onAfterActivePlaysetOrModStatusChanged -= DoWhenLoaded;
         }
 
         private Dictionary<string, string> fileNames = [];
@@ -169,7 +170,7 @@ namespace VanillaThemeOverride
             var weAsset = AssetDatabase.global.GetAsset(SearchFilter<ExecutableAsset>.ByCondition(asset => asset.isLoaded && asset.name.Equals("BelzontWE")));
             if (weAsset?.assembly is null)
             {
-                log.Error($"The module {GetType().Assembly.GetName().Name} requires Write Everywhere mod to work!");
+                log.Warn($"The module {GetType().Assembly.GetName().Name} requires Write Everywhere mod to work!");
                 return false;
 
             }
